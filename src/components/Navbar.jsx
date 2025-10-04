@@ -19,7 +19,8 @@ export const Navbar = () => {
     if (user) {
       links.push(
         { path: '/pods', label: 'Browse Pods' },
-        { path: '/dashboard', label: 'Dashboard' }
+        { path: '/dashboard', label: 'Dashboard' },
+        { path: '/iot-products', label: 'IoT Products' }
       );
 
       if (isAdmin) {
