@@ -8,6 +8,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { AdminPage } from './pages/AdminPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { IoTProductsPage } from './pages/IoTProductsPage';
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
               element={
                 <ProtectedRoute requireAdmin>
                   <AdminPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/iot-products" 
+              element={
+                <ProtectedRoute>
+                  <IoTProductsPage />
                 </ProtectedRoute>
               } 
             />
