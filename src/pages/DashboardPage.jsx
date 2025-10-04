@@ -11,7 +11,7 @@ export const DashboardPage = () => {
   
   if (bookings.length === 0) {
     return (
-      <div className="text-center">
+      <div className="container mx-auto min-h-full py-8 text-center">
         <h1 className="text-3xl font-bold mb-6">Mission Dashboard</h1>
         <Card>
           <p className="text-gray-500 mb-4">You haven't booked any research pods yet.</p>
@@ -22,7 +22,7 @@ export const DashboardPage = () => {
   }
 
   return (
-    <div>
+    <div className="container mx-auto min-h-full py-8">
       <h1 className="text-3xl font-bold mb-6">Mission Dashboard</h1>
       
       <div className="grid lg:grid-cols-3 gap-8">

@@ -3,7 +3,7 @@ import { Card } from '../components/Card';
 
 export const HomePage = () => {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="min-h-full max-w-4xl mx-auto py-8">
       <div className="text-center mb-12 px-4">
         <h1 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           Welcome to Orbit Lab Hub
