@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -106,10 +107,22 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-700">
-            <div className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden py-4 border-t border-gray-700"
+            >
+              <motion.div 
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                className="flex flex-col space-y-3"
+              >
+                {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
@@ -152,9 +165,10 @@ export const Navbar = () => {
                   </Link>
                 </>
               )}
-            </div>
-          </div>
-        )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
