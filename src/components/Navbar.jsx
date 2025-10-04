@@ -1,16 +1,36 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAdmin, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/pods', label: 'Browse Pods' },
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/admin', label: 'Admin' },
-  ];
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const getNavLinks = () => {
+    const links = [{ path: '/', label: 'Home' }];
+
+    if (user) {
+      links.push(
+        { path: '/pods', label: 'Browse Pods' },
+        { path: '/dashboard', label: 'Dashboard' }
+      );
+
+      if (isAdmin) {
+        links.push({ path: '/admin', label: 'Admin' });
+      }
+    }
+
+    return links;
+  };
+
+  const navLinks = getNavLinks();
 
   return (
     <nav className="bg-gray-800 text-white">
@@ -43,7 +63,7 @@ export const Navbar = () => {
           </button>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex gap-6">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -55,6 +75,32 @@ export const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-gray-300">Welcome, {user.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/login"
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -74,6 +120,37 @@ export const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              {user ? (
+                <>
+                  <div className="px-2 py-1 text-sm text-gray-300">Welcome, {user.name}</div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="block w-full text-left px-2 py-1 text-red-400 hover:bg-gray-700 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="block px-2 py-1 hover:bg-gray-700 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="block px-2 py-1 text-blue-400 hover:bg-gray-700 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
